@@ -3,7 +3,7 @@ const url = require("url");
 
 http.createServer((req, res) => {
     const path = url.parse(req.url, true).pathname;
-    res.setHeader("Content-Type", "test/html");
+    res.setHeader("Content-Type", "text/html");
 
     if(path === "/user") {
         res.end("[user] name : andy, age: 30");
