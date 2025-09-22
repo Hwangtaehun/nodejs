@@ -1,0 +1,8 @@
+{
+  "name": "test-yarn",
+  "packageManager": "yarn@4.10.2",
+  "dependencies": {
+    "chalk": "https://github.com/Hwangtaehun/chalk"
+  },
+  "type": "module"
+}
