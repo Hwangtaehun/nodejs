@@ -6,7 +6,7 @@ function myWork(work) {
 
 function playGame(work) {
     return new Promise((resolve, reject) => {
-        if(work === 'done'){
+        if(work === 'DONE'){
             resolve('GO PLAY GAME');
         } else {
             reject(new Error("DON'T"));
