@@ -14,13 +14,27 @@ app.set("view engine", "handlebars");
 app.set("veiws", __dirname + "/views");
 
 app.get("/write", (req, res) =>{
-    res.render("write", {title: "테스크 게시판"});
+    res.render("write", {title: "테스크 게시판", mode: "create"});
 });
 
 app.post("/write", async (req, res) => {
     const post = req.body;
     const result = await postService.writePost(collection, post);
     res.redirect(`/detail/${result.insertedId}`);
+});
+
+app.get("/modify/:id", async (req, res) =>{
+    const { id } = req.params.id;
+    const post = await postService.getPostById(collection, req.params.id);
+    console.log(post);
+    res.render("write", {title: "테스트 게시판", mode: "modify", post});
+});
+
+app.post("/modify/", async(req, res) => {
+    const{id, title, writer, password, content} = req.body;
+    const post = {title, writer, password, content, createDt: new Date().toISOString(),};
+    const result = postService.updatePost(collection, id, post);
+    res.redirect(`/detail/${id}`);
 });
 
 app.get("/detail/:id", async(req, res) => {
