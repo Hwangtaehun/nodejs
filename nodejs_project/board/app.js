@@ -2,6 +2,7 @@ const express = require("express");
 const handlebars = require("express-handlebars");
 const mongodbConnection = require("./configs/mongodb-connection");
 const postService = require("./services/post-service");
+const { ObjectId } = require("mongodb");
 
 let collection;
 
@@ -64,14 +65,31 @@ app.get("/modify/:id", async (req, res) =>{
     const { id } = req.params.id;
     const post = await postService.getPostById(collection, req.params.id);
     console.log(post);
-    res.render("write", {title: "테스트 게시판", mode: "modify", post});
+    res.render("write", {title: "테스트 게시판 ", mode: "modify", post});
 });
 
 app.post("/modify/", async(req, res) => {
-    const{id, title, writer, password, content} = req.body;
-    const post = {title, writer, password, content, createDt: new Date().toISOString(),};
+    const {id, title, writer, password, content} = req.body;
+    const post = {title, writer, password, content, createdDt: new Date().toISOString(),};
     const result = postService.updatePost(collection, id, post);
     res.redirect(`/detail/${id}`);
+});
+
+app.delete("/delete", async (req, res) => {
+    const { id, password } = req.body;
+    try {
+        const result = await collection.deleteOne({ _id: ObjectId(id), password: password });
+        
+        if (result.deleteCount !== 1){
+            console.log("삭제 실패");
+            return res.json({ isSuccess: false });
+        }
+        
+        return res.json({ isSuccess: true });
+    } catch (error) {
+        console.log(error);
+        return res.json({ isSuccess: false });
+    }
 });
 
 app.listen(3000, async() => {
