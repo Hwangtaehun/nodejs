@@ -15,7 +15,7 @@
 
 <section>
     <div>
-        <h3>{{lengthOfList comments}}의 댓글이 있습니다.</h3>
+        <h3>{{lengthOfList comments}}개의 댓글이 있습니다.</h3>
     </div>
 
     <form action="/write-comment" method="post">
@@ -55,6 +55,7 @@
         <a href="/">목록으로</a>
     </div>
 </footer>
+
 <script>
     const postOption = {
         method: 'POST',
@@ -76,7 +77,7 @@
         });
 
         const data = await result.json();
-    
+
         if (data.isExist) {
             document.location = "/modify/{{post._id}}"
         } else {
@@ -93,8 +94,8 @@
 
     async function deletePost() {
         const password = prompt("삭제하려면 패스워드를 입력해주세요");
-        
-        if(!password){
+
+        if (!password) {
             return;
         }
 
@@ -104,7 +105,7 @@
         });
 
         const data = await result.json();
-        
+
         if (!data.isSuccess) {
             alert("삭제에 실패했습니다. 패스워드를 확인해주세요.");
             return;
@@ -116,7 +117,7 @@
     async function deleteComment(idx) {
         const password = prompt("삭제하려면 패스워드를 입력해주세요");
 
-        if(!password){
+        if (!password) {
             return;
         }
 
@@ -126,7 +127,7 @@
         });
 
         const data = await result.json();
-        if(!data.isSuccess) {
+        if (!data.isSuccess) {
             alert("삭제에 실패했습니다. 패스워드를 확인해주세요.");
             return;
         }
