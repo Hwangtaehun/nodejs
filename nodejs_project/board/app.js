@@ -78,16 +78,16 @@ app.post("/modify/", async(req, res) => {
 app.delete("/delete", async (req, res) => {
     const { id, password } = req.body;
     try {
-        const result = await collection.deleteOne({ _id: ObjectId(id), password: password });
-        
-        if (result.deleteCount !== 1){
+        const result = await collection.deleteOne({ _id: ObjectId(id), password: password, });
+
+        if (result.deletedCount !== 1) {
             console.log("삭제 실패");
             return res.json({ isSuccess: false });
         }
         
         return res.json({ isSuccess: true });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return res.json({ isSuccess: false });
     }
 });
