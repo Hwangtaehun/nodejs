@@ -14,17 +14,17 @@
                 <th width="50%">제목</th>
                 <th>작성자</th>
                 <th>조회수</th>
-                <th>등록일</th>
+                <th> 등록일</th>
             </tr>
         </thead>
         <tbody>
             {{#each posts}}
-                <tr>
-                    <td><a href="/detail/{{_id}}">{{title}}</a></td>
-                    <td>{{writer}}</td>
-                    <td>{{hits}}</td>
-                    <td>{{dateString createdDt}}</td>
-                </tr>
+            <tr>
+                <td><a href="/detail/{{_id}}">{{title}}</a></td>
+                <td>{{writer}}</td>
+                <td>{{hits}}</td>
+                <td>{{dateString createdDt}}</td>
+            </tr>
             {{/each}}
         </tbody>
     </table>
@@ -39,7 +39,7 @@
     <a>&lt;</a>
     {{/if}}
     {{#each pageList}}
-    {{#if (eq. @root.paginator.page)}}
+    {{#if (eq this @root.paginator.page)}}
     <a>{{.}}</a>
     {{else}}
     <a href="/?page={{.}}&search={{@root.search}}">{{.}}</a>
@@ -51,5 +51,5 @@
     <a>&gt;</a>
     {{/if}}
     <a href="/?page={{lastPage}}&search={{@root.search}}">&gt;&gt;</a>
-    {{/width}}
+    {{/with}}
 </div>

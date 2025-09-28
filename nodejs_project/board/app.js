@@ -13,10 +13,6 @@ app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("veiws", __dirname + "/views");
 
-app.get("/", (req, res) => {
-    res.render("home", { title: "테스트 게시판", message: "만나서 반갑습니다!" });
-});
-
 app.get("/write", (req, res) =>{
     res.render("write", {title: "테스크 게시판"});
 });
@@ -28,8 +24,10 @@ app.post("/write", async (req, res) => {
 });
 
 app.get("/detail/:id", async(req, res) => {
+    const result = await postService.getDetailPost(collection, req.params.id);
     res.render("detail", {
         title: "테스트 게시판",
+        post: result.value,
     });
 });
 
