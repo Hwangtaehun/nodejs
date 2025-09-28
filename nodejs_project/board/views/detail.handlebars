@@ -69,12 +69,12 @@
 
         const result = await fetch("/check-password", {
             ...postOption,
-            body: JSON.stringify({id: "{{post._id}}", password})
+            body: JSON.stringify({ id: "{{post._id}}", password })
         });
 
         const data = await result.json();
-
-        if(data.isExist){
+    
+        if (data.isExist) {
             document.location = "/modify/{{post._id}}"
         } else {
             alert("패스워드가 올바르지 않습니다.");
