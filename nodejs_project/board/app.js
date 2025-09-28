@@ -70,7 +70,13 @@ app.get("/modify/:id", async (req, res) =>{
 
 app.post("/modify/", async(req, res) => {
     const {id, title, writer, password, content} = req.body;
-    const post = {title, writer, password, content, createdDt: new Date().toISOString(),};
+    const post = {
+        title, 
+        writer, 
+        password, 
+        content, 
+        createdDt: new Date().toISOString(),
+    };
     const result = postService.updatePost(collection, id, post);
     res.redirect(`/detail/${id}`);
 });
