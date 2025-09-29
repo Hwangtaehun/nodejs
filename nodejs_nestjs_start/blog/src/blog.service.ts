@@ -1,33 +1,41 @@
 import { PostDto } from './blog.model';
 
 export class BlogService {
-  posts = [];
+  private posts: PostDto[] = [];
 
-  getAllPost() {
+  getAllPosts(): PostDto[] {
     return this.posts;
   }
 
-  createPost(postDto: PostDto) {
-    const id = this.posts.length + 1;
-    this.posts.push({ id: id.toString(), ...postDto, createdDt: new Data() });
+  createPost(postData: Omit<PostDto, 'id' | 'createdDt' | 'updatedDt'>): PostDto {
+    const id = (this.posts.length + 1).toString();
+    const newPost: PostDto = {
+      id,
+      ...postData,
+      createdDt: new Date(),
+    };
+    this.posts.push(newPost);
+    return newPost;
   }
 
-  getPost(id) {
-    const post = this.posts.find((post) => {
-      return post.id === id;
-    });
-    console.log(post);
-    return post;
+  getPost(id: string): PostDto | undefined {
+    return this.posts.find((post) => post.id === id);
   }
 
-  delete(id) {
-    const filteredPosts = this.posts.filter((post) => post.id !== id);
-    this.posts = [...filteredPosts];
+  delete(id: string): void {
+    this.posts = this.posts.filter((post) => post.id !== id);
   }
 
-  updatePost(id, postDto: PostDto) {
+  updatePost(id: string, postData: Omit<PostDto, 'id' | 'createdDt'>): PostDto | undefined {
     const updateIndex = this.posts.findIndex((post) => post.id === id);
-    const updatePost = { id, ...postDto, updatedDt: new Date() };
+    if (updateIndex === -1) return undefined;
+
+    const updatePost: PostDto = {
+      ...this.posts[updateIndex],
+      ...postData,
+      updatedDt: new Date(),
+    };
+
     this.posts[updateIndex] = updatePost;
     return updatePost;
   }

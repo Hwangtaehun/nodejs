@@ -20,7 +20,7 @@ export class BlogController {
   @Get()
   getAllPosts() {
     console.log('모든 게시글 가져오기');
-    return this.blogService.getAllPost();
+    return this.blogService.getAllPosts();
   }
 
   @Post()
@@ -46,6 +46,6 @@ export class BlogController {
   @Put('/:id')
   updatePost(@Param('id') id: string, @Body() postDto) {
     console.log('게시글 업데이트', id, postDto);
-     return this.blogService.updatePost(id, postDto);
+    return this.blogService.updatePost(id, postDto);
   }
 }
