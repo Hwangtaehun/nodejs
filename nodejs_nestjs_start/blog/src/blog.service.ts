@@ -1,32 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { PostDto } from './blog.model';
-import { BlogFileRepository, BlogRepository } from './blog.repository';
+import { BlogFileRepository } from './blog.repository';
 
+@Injectable()
 export class BlogService {
-  //private posts: PostDto[] = [];
-  blogRespository: BlogRepository;
-
-  constructor() {
-    this.blogRespository = new BlogFileRepository();
-  }
+  constructor(private blogRepository: BlogFileRepository) {}
 
   async getAllPosts() {
-    return await this.blogRespository.getAllPost();
+    return await this.blogRepository.getAllPost();
   }
 
   createPost(postDto: PostDto) {
-    this.blogRespository.createPost(postDto);
+    this.blogRepository.createPost(postDto);
   }
 
-  async getPost(id: string): Promise<PostDto | undefined> {
-    return await this.blogRespository.getPost(id);
+  async getPost(id: string): Promise<PostDto | undefined | null> {
+    return await this.blogRepository.getPost(id);
   }
 
   delete(id: string): void {
-    this.blogRespository.deletePost(id);
+    this.blogRepository.deletePost(id);
   }
 
   updatePost(id, postDto: PostDto) {
-    this.blogRespository.updatePost(id, postDto);
+    this.blogRepository.updatePost(id, postDto);
   }
 }
