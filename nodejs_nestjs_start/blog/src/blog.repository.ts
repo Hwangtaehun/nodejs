@@ -13,21 +13,19 @@ export interface BlogRepository {
 }
 
 @Injectable()
-export class BlogFileRepository implements BlogRepository {
+export class BlogMongoRepository implements BlogRepository {
   constructor(@InjectModel(Blog.name) private blogModel: Model<BlogDocument>) {}
 
   async getAllPost(): Promise<Blog[]> {
     return await this.blogModel.find().exec();
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   async createPost(postDto: PostDto) {
-    const createPost: PostDto = {
+    return this.blogModel.create({
       ...postDto,
       createdDt: new Date(),
       updatedDt: new Date(),
-    };
-    this.blogModel.create(createPost);
+    });
   }
 
   async getPost(id: string): Promise<PostDto | undefined | null> {
@@ -38,8 +36,10 @@ export class BlogFileRepository implements BlogRepository {
     await this.blogModel.findByIdAndDelete(id);
   }
 
-  async updatePost(id: string, postDto: PostDto) {
+  async updatePost(id: string, postDto: Omit<PostDto, 'id'>) {
     const updatePost = { ...postDto, updatedDt: new Date() };
-    await this.blogModel.findByIdAndDelete(id, updatePost);
+    return await this.blogModel.findByIdAndUpdate(id, updatePost, {
+      new: true,
+    });
   }
 }
