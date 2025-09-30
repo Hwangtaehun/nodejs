@@ -1,12 +1,27 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private configService: ConfigService) {}
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    const message = this.configService.get('MESSAGE');
+    return message;
+  }
+
+  @Get('service-url')
+  getServiceUrl(): string | undefined {
+    return this.configService.get('SERVICE_URL');
+  }
+
+  @Get('db-info')
+  getTest(): string | undefined {
+    console.log(this.configService.get('logLevel'));
+    console.log(this.configService.get('apiVersion'));
+    return this.configService.get('dbInfo');
   }
 }
