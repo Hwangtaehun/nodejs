@@ -14,6 +14,8 @@ console.log('current working directory : ' + process.cwd());
       isGlobal: true,
       envFilePath: `${process.cwd()}/envs/${process.env.NODE_ENV}.env`,
       load: [config],
+      cache: true,
+      expandVariables: true,
     }),
     WeatherModule,
   ],

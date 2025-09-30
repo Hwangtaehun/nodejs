@@ -3,6 +3,8 @@ import common from './common';
 import local from './local';
 import dev from './dev';
 import prod from './prod';
+import { readFileSync } from 'fs';
+import * as yaml from 'js-yaml';
 
 const phase = process.env.NODE_ENV;
 
@@ -15,7 +17,12 @@ if (phase === 'local') {
   conf = prod;
 }
 
+const yamlConfig = yaml.load(
+  readFileSync(`${process.cwd()}/envs/config.yaml`, 'utf8'),
+) as Record<string, any>;
+
 export default () => ({
   ...common,
   ...conf,
+  ...yamlConfig,
 });
