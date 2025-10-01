@@ -10,7 +10,7 @@ content-type: application/json
 
 ### 로그인
 POST http://localhost:3000/auth/login
-content-type: application/application/json
+content-type: application/json
 
 {
     "email" : "andy1@podo.com",
