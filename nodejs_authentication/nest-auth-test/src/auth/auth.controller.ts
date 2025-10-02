@@ -1,9 +1,19 @@
+/* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Body, Controller, Post, Request, Response } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  Response,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateUseDto } from 'src/user/user.dto';
 import { AuthService } from './auth.service';
+import { LoginGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -28,5 +38,23 @@ export class AuthController {
       });
     }
     return res.send({ message: 'login success' });
+  }
+
+  @UseGuards(LoginGuard)
+  @Post('login2')
+  async login2(@Request() req, @Response() res) {
+    if (!req.cookie['login'] && req.user) {
+      res.cookie('login', JSON.stringify(req.user), {
+        httpOnly: true,
+        maxAge: 1000 * 10,
+      });
+    }
+    return res.send({ message: 'login2 success' });
+  }
+
+  @UseGuards(LoginGuard)
+  @Get('test-guard')
+  testGuard() {
+    return '로그인된 때만 이 글이 보입니다.';
   }
 }
