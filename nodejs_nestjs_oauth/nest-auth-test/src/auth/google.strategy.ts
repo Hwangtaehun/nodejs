@@ -1,0 +1,35 @@
+import { Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { Profile, Strategy } from 'passport-google-oauth20';
+import { UserService } from 'src/user/user.service';
+import { User } from 'src/user/user.entity';
+
+@Injectable()
+export class GoogleStrategy extends PassportStrategy(Strategy) {
+  constructor(private userSerivce: UserService) {
+    super({
+      clientID: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      callbackURL: 'http://localhost:3000/auth/google',
+      scope: ['email', 'profile'],
+    });
+  }
+
+  async validate(accessToken: string, refreshToken: string, profile: Profile) {
+    const { id, name, emails } = profile;
+    console.log(accessToken);
+    console.log(refreshToken);
+
+    const providers = id;
+    const email = emails?.[0]?.value ?? null;
+    const fullName = `${name?.familyName ?? ''}${name?.givenName ?? ''}`;
+
+    const user: User = await this.userSerivce.findByEmailOrSave(
+      email,
+      fullName,
+      providers,
+    );
+
+    return user;
+  }
+}
