@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Simple Nest Chat</title>
+
+        <div>
+            <h2>채팅방 목록</h2>
+            <ul id="rooms"></ul>
+        </div>
+    </head>
+    <body>
+        <h2>Simple Nest Chat</h2>
+        <div id="chat"></div>
+        <input type="text" id="message" placeholder="메시지를 입력해주세요.">
+        <button onclick="sendMessage()">전송</button>
+        <button onclick="createRoom()">방 만들기</button>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.1.slim.js"></script>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="http://localhost:3000/script.js"></script>
+</html>
